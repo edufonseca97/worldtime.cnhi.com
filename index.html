@@ -35,23 +35,19 @@
 
   /* Dark theme overrides (applied by .dark on <html>) */
   html.dark {
-    --border: #2a2f36;
-    --bg: #0b0f14;
-    --bg-muted: #071018;
-    --weekend: #0f1720;
-    --text: #e6eef6;
-    --muted: #98a3b3;
-    --accent: #3b82f6;
-    --highlight: #08304b;
-    --quarter-highlight: #3b2e00;
-    --card-shadow: rgba(0,0,0,0.6);
+    --border: #404854;
+    --bg: #1a1f28;
+    --bg-muted: #242d3a;
+    --weekend: #2d3748;
+    --text: #f0f4f8;
+    --muted: #b8c5d6;
+    --accent: #60a5fa;
+    --highlight: #1e3a5f;
+    --quarter-highlight: #5a4a0a;
+    --card-shadow: rgba(0,0,0,0.4);
   }
 
-  /* Compact mode is toggled by adding .compact on <body> */
-  body.compact {
-    margin: 10px;
-    font-size: 13px;
-  }
+
   body {
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     margin: 24px;
@@ -111,7 +107,7 @@
     justify-content:center;
     gap:6px;
   }
-  body.compact .tz-item { padding:8px; min-height:64px; }
+
 
   .tz-top {
     display:flex;
@@ -119,14 +115,15 @@
     justify-content:center;
     gap:8px;
   }
-  .tz-flag { font-size: var(--flag-font-size); line-height:1; }
-  body.compact .tz-flag { font-size: 16px; }
+  .tz-flag { font-size: var(--flag-font-size); line-height:1; display:block; }
+  .tz-flag svg { width: 24px; height: 24px; vertical-align: middle; }
+
 
   .tz-name {
     font-weight: 600;
     font-size: 15px;
   }
-  body.compact .tz-name { font-size: 13px; }
+
 
   .tz-time {
     font-size: 26px;
@@ -134,13 +131,13 @@
     color: var(--accent);
     font-variant-numeric: tabular-nums;
   }
-  body.compact .tz-time { font-size: 20px; }
+
 
   .tz-sub {
     font-size: 13px;
     color: var(--muted);
   }
-  body.compact .tz-sub { font-size: 12px; }
+
 
   /* Calendar */
   .year-header {
@@ -159,7 +156,7 @@
     padding: 10px;
     background: var(--bg);
   }
-  body.compact .month { padding:8px; }
+
   .month h3 { margin: 0 0 8px; color: var(--accent); font-size:15px; }
 
   table {
@@ -173,6 +170,7 @@
     padding:6px 4px;
   }
   .week-col { width:2.4rem; color:var(--muted); font-weight:600; background:#f2f3f5; }
+  html.dark .week-col { background:#2d3748; color:#d0d8e8; }
   .weekend { background: var(--weekend); }
   .empty { background:#fafbfc; color:transparent; }
   .today { background: var(--highlight); font-weight:700; border:2px solid var(--accent); }
@@ -199,9 +197,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .tz-item {
-    animation: fadeIn 0.4s ease-out;
-  }
+
 
   .btn:hover {
     transform: translateY(-2px);
@@ -251,11 +247,6 @@
       <button id="themeToggle" class="btn" aria-pressed="false">Dark Mode</button>
     </div>
 
-    <!-- Compact view toggle -->
-    <div class="group" title="Compact / Full view">
-      <button id="compactToggle" class="btn" aria-pressed="false">Compact View</button>
-    </div>
-
     <!-- Time format toggle -->
     <div class="group" title="Switch 24h / AM-PM">
       <button id="hourToggle" class="btn" aria-pressed="false">24h</button>
@@ -281,74 +272,17 @@
       <div class="spacer" aria-hidden="true"></div>
     </div>
 
-    <p class="legend">Timezones shown with flag • Sorted from most advanced (later local time) → earliest • Local date included</p>
-
     <div id="timezones" class="tz-grid" aria-live="polite" aria-relevant="additions"></div>
   </section>
 
   <!-- =======================================================
        BEST MEETING TIMES
        ======================================================= -->
-  <section class="card" style="margin-top:14px;">
+  <section class="card" id="bestMeetingSection" style="margin-top:14px; display:none;">
     <div id="bestMeetingContainer"></div>
   </section>
 
-  <!-- =======================================================
-       TIMEZONE OFFSET GUIDE
-       ======================================================= -->
-  <section class="card" style="margin-top:14px;">
-    <h2>Quick Reference: Timezone Offsets from UTC</h2>
-    <div id="tzOffsetGuide" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px;"></div>
-  </section>
 
-  <!-- =======================================================
-       TIME DIFFERENCE CALCULATOR
-       ======================================================= -->
-  <section class="card" style="margin-top:14px;">
-    <h2>🌍 Global Activity Overview</h2>
-    <p class="muted">Shows the distribution of typical working hours (9am-5pm) across all locations throughout the day</p>
-    <div id="activityChart" style="display:grid; grid-template-columns:repeat(24,1fr); gap:4px; margin:16px 0;">
-      <!-- 24 hour blocks will be inserted here -->
-    </div>
-    <div style="margin-top:12px; font-size:12px; color:var(--muted);">
-      <span style="display:inline-block; padding:4px 8px; background:var(--accent); color:#fff; border-radius:4px; margin-right:8px;">Blue</span> = Active working hours
-      <span style="display:inline-block; padding:4px 8px; background:#6b7280; color:#fff; border-radius:4px;">Gray</span> = Outside working hours
-    </div>
-  </section>
-
-  <!-- =======================================================
-       TIME DIFFERENCE CALCULATOR
-       ======================================================= -->
-  <section class="card" style="margin-top:14px;">
-    <h2>⏱️ Time Difference Calculator</h2>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
-      <div>
-        <label class="muted" style="display:block; margin-bottom:6px;">From Location:</label>
-        <select id="tzFrom" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-muted); color:var(--text);">
-          <!-- Options generated by JS -->
-        </select>
-      </div>
-      <div>
-        <label class="muted" style="display:block; margin-bottom:6px;">To Location:</label>
-        <select id="tzTo" style="width:100%; padding:8px; border:1px solid var(--border); border-radius:6px; background:var(--bg-muted); color:var(--text);">
-          <!-- Options generated by JS -->
-        </select>
-      </div>
-    </div>
-    <div id="diffResult" style="padding:12px; background:var(--bg-muted); border-radius:6px; border-left:4px solid var(--accent);">
-      <div style="font-size:18px; font-weight:bold; color:var(--accent);">Select locations above</div>
-    </div>
-  </section>
-
-  <!-- =======================================================
-       COMMUNICATION TIPS
-       ======================================================= -->
-  <section class="card" style="margin-top:14px;">
-    <h2>💡 Communication Tips</h2>
-    <div id="tipsContainer" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px;">
-      <!-- Tips generated by JS -->
-    </div>
-  </section>
 
   <!-- =======================================================
        CALENDAR SECTION (2024-2027)
@@ -360,7 +294,7 @@
         <!-- buttons created by JS -->
       </div>
     </div>
-    <div class="legend">Weekends shaded • ISO Week Numbers • Current day highlighted</div>
+
     <div id="calendar" class="months" aria-live="polite"></div>
   </section>
 
@@ -373,9 +307,9 @@
       <thead>
         <tr>
           <th>Quarter</th>
-          <th>North America</th>
-          <th>Europe</th>
-          <th>Latin America</th>
+          <th>NAFTA</th>
+          <th>EMEA</th>
+          <th>LATAM</th>
           <th>APAC</th>
         </tr>
       </thead>
@@ -403,7 +337,7 @@
         </tr>
 
         <!-- Q2 -->
-        <tr>
+        <tr class="current-quarter">
           <td><strong>Q2<br>(Apr–Jun)</strong><br>Spring (NA/EU)<br>Autumn (LATAM/APAC)</td>
           <td>
             <span class="ag-section-title">Planting:</span> Corn, Soybeans, Sunflowers
@@ -448,7 +382,7 @@
         </tr>
 
         <!-- Q4 -->
-        <tr class="current-quarter">
+        <tr>
           <td><strong>Q4<br>(Oct–Dec)</strong><br>Autumn (NA/EU)<br>Spring (LATAM/APAC)</td>
           <td>
             <span class="ag-section-title">Harvest:</span> Corn, Soybeans, Sunflowers
@@ -474,6 +408,15 @@
 
       </tbody>
     </table>
+    <div style="margin-top:16px; font-size:12px; color:var(--muted);">
+      <strong>Legend:</strong>
+      <div style="margin-top:8px; line-height:1.6;">
+        <div><strong>NAFTA:</strong> North American Free Trade Agreement (Canada, Mexico, United States)</div>
+        <div><strong>EMEA:</strong> Europe, Middle East, Africa</div>
+        <div><strong>LATAM:</strong> Latin America</div>
+        <div><strong>APAC:</strong> Asia-Pacific</div>
+      </div>
+    </div>
   </section>
 
   <!-- =======================================================
@@ -487,12 +430,12 @@
 const CONFIG = {
   // Keep only the locations already present in your HTML (as requested).
   timezones: [
-    { name: "Canberra", tz: "Australia/Sydney", flag: "🇦🇺" },
-    { name: "Pune",                     tz: "Asia/Kolkata",       flag: "🇮🇳" },
-    { name: "Zedelgem",               tz: "Europe/Brussels",    flag: "🇧🇪" },
-    { name: "Curitiba",                tz: "America/Sao_Paulo",  flag: "🇧🇷" },
-    { name: "New Holland, PA",            tz: "America/New_York",   flag: "🇺🇸" },
-    { name: "Oak Brook, IL",              tz: "America/Chicago",    flag: "🇺🇸" }
+    { name: "St Marys (Sydney)", tz: "Australia/Sydney", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#00008B'/><rect width='15' height='15' fill='#fff'/><path d='M2,2 L14,2 L14,14 L2,14 Z' stroke='#CC0000' stroke-width='1' fill='none'/><path d='M2,8 L14,8 M8,2 L8,14' stroke='#CC0000' stroke-width='0.8'/><polygon points='8,8 9,9.5 10.5,9.5 9,10.5 9.5,12 8,11 6.5,12 7,10.5 5.5,9.5 7,9.5' fill='#FFD700'/><circle cx='42' cy='8' r='1.5' fill='#fff'/><circle cx='50' cy='12' r='1.5' fill='#fff'/><circle cx='42' cy='16' r='1.5' fill='#fff'/><circle cx='34' cy='12' r='1.5' fill='#fff'/><circle cx='42' cy='12' r='1' fill='#fff'/></svg>" },
+    { name: "Pune", tz: "Asia/Kolkata", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect y='0' width='60' height='10' fill='#FF9900'/><rect y='10' width='60' height='10' fill='white'/><rect y='20' width='60' height='10' fill='#138808'/><circle cx='30' cy='15' r='3' fill='#1434CB'/></svg>" },
+    { name: "Zedelgem", tz: "Europe/Brussels", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='20' height='30' fill='#000'/><rect x='20' width='20' height='30' fill='#FFD700'/><rect x='40' width='20' height='30' fill='#EF3B39'/></svg>" },
+    { name: "Curitiba", tz: "America/Sao_Paulo", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#009C3B'/><polygon points='30,5 50,15 30,25 10,15' fill='#FFD700'/><circle cx='30' cy='15' r='3' fill='#002776'/></svg>" },
+    { name: "New Holland, PA", tz: "America/New_York", offset: "GMT-4", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#B22234'/><line x1='0' y1='5' x2='60' y2='5' stroke='white' stroke-width='2'/><line x1='0' y1='10' x2='60' y2='10' stroke='white' stroke-width='2'/><line x1='0' y1='15' x2='60' y2='15' stroke='white' stroke-width='2'/><line x1='0' y1='20' x2='60' y2='20' stroke='white' stroke-width='2'/><line x1='0' y1='25' x2='60' y2='25' stroke='white' stroke-width='2'/><rect width='24' height='15' fill='#3C3B6B'/></svg>" },
+    { name: "Oak Brook, IL", tz: "America/Chicago", offset: "GMT-5", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#B22234'/><line x1='0' y1='5' x2='60' y2='5' stroke='white' stroke-width='2'/><line x1='0' y1='10' x2='60' y2='10' stroke='white' stroke-width='2'/><line x1='0' y1='15' x2='60' y2='15' stroke='white' stroke-width='2'/><line x1='0' y1='20' x2='60' y2='20' stroke='white' stroke-width='2'/><line x1='0' y1='25' x2='60' y2='25' stroke='white' stroke-width='2'/><rect width='24' height='15' fill='#3C3B6B'/></svg>" }
   ],
   years: [2024, 2025, 2026, 2027]
 };
@@ -584,13 +527,10 @@ function updateTimezones(){
         <div class="tz-name">${z.name}</div>
       </div>
       <div class="tz-time" data-time="${timeStr}">${timeStr}</div>
-      <div class="tz-sub">${dateStr} ${tzShort ? "• " + tzShort : ""}</div>
+      <div class="tz-sub">${dateStr}${tzShort ? " • " + tzShort : ""}${z.offset ? " • " + z.offset : ""}</div>
     `;
     container.appendChild(div);
   });
-
-  // Also update offset guide
-  updateTimezoneOffsetGuide();
 }
 
 /* --------------------------
@@ -643,205 +583,6 @@ function renderMonth(year, month){
   }
   html += `</table></div>`;
   return html;
-}
-
-function updateTimezoneOffsetGuide(){
-  const container = document.getElementById('tzOffsetGuide');
-  if (!container) return;
-
-  const now = new Date();
-  container.innerHTML = '';
-
-  CONFIG.timezones.forEach(z => {
-    // Get UTC offset for this timezone
-    const utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
-    const tzDate = new Date(now.toLocaleString('en-US', { timeZone: z.tz }));
-    const diffMs = tzDate - utcDate;
-    const diffHours = diffMs / (1000 * 60 * 60);
-    const sign = diffHours >= 0 ? '+' : '';
-    const offsetStr = `UTC${sign}${diffHours.toFixed(1)}`;
-
-    const div = document.createElement('div');
-    div.style.cssText = 'padding:10px; background:var(--bg-muted); border-radius:6px; text-align:center; border-top:3px solid var(--accent);';
-    div.innerHTML = `<strong>${z.flag} ${z.name}</strong><br><span class="muted" style="font-size:13px;">${offsetStr}</span>`;
-    container.appendChild(div);
-  });
-}
-
-function renderActivityChart(){
-  const container = document.getElementById('activityChart');
-  if (!container) return;
-
-  const now = new Date();
-  container.innerHTML = '';
-
-  // For each hour of the day (0-23 UTC)
-  for (let utcHour = 0; utcHour < 24; utcHour++){
-    const testTime = new Date(now);
-    testTime.setUTCHours(utcHour, 0, 0, 0);
-
-    let activeCount = 0;
-    CONFIG.timezones.forEach(z => {
-      const localStr = testTime.toLocaleString('en-US', { 
-        timeZone: z.tz,
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-      });
-      const [timeOnly] = localStr.split(',')[1]?.trim().split(':') || ['0'];
-      const localHour = parseInt(timeOnly);
-      
-      if (localHour >= 9 && localHour < 17) {
-        activeCount++;
-      }
-    });
-
-    const pct = (activeCount / CONFIG.timezones.length) * 100;
-    const div = document.createElement('div');
-    const isActive = activeCount > 0;
-    const color = isActive ? '#3b82f6' : '#6b7280';
-    div.style.cssText = `
-      height:30px;
-      background: ${color};
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 600;
-      color: #fff;
-      cursor: pointer;
-      opacity: ${0.5 + (pct / 200)};
-      transition: all 0.2s;
-    `;
-    div.textContent = utcHour;
-    div.title = `${utcHour}:00 UTC - ${activeCount}/${CONFIG.timezones.length} in working hours`;
-    div.onmouseover = () => div.style.transform = 'scale(1.1)';
-    div.onmouseout = () => div.style.transform = 'scale(1)';
-    container.appendChild(div);
-  }
-}
-
-/* --------------------------
-   Time Difference Calculator
-   - calculates offset between two timezones
-   -------------------------- */
-function initTimeDiffCalculator(){
-  const tzFrom = $('tzFrom');
-  const tzTo = $('tzTo');
-  
-  // Populate selects
-  CONFIG.timezones.forEach((tz, idx) => {
-    const opt1 = document.createElement('option');
-    opt1.value = tz.tz;
-    opt1.textContent = `${tz.flag} ${tz.name}`;
-    tzFrom.appendChild(opt1);
-    
-    const opt2 = document.createElement('option');
-    opt2.value = tz.tz;
-    opt2.textContent = `${tz.flag} ${tz.name}`;
-    tzTo.appendChild(opt2);
-  });
-  
-  // Set default values
-  if (CONFIG.timezones.length >= 2) {
-    tzFrom.value = CONFIG.timezones[0].tz;
-    tzTo.value = CONFIG.timezones[1].tz;
-  }
-  
-  // Update on change
-  const updateDiff = () => {
-    const now = new Date();
-    const fromStr = now.toLocaleString('en-US', { timeZone: tzFrom.value, hour: '2-digit', minute: '2-digit', hour12: false });
-    const toStr = now.toLocaleString('en-US', { timeZone: tzTo.value, hour: '2-digit', minute: '2-digit', hour12: false });
-    
-    const [fromH, fromM] = fromStr.split(',')[1]?.trim().split(':') || ['0', '0'];
-    const [toH, toM] = toStr.split(',')[1]?.trim().split(':') || ['0', '0'];
-    
-    const fromMins = parseInt(fromH) * 60 + parseInt(fromM);
-    const toMins = parseInt(toH) * 60 + parseInt(toM);
-    let diffMins = toMins - fromMins;
-    
-    // Handle day boundary
-    if (diffMins < -12 * 60) diffMins += 24 * 60;
-    if (diffMins > 12 * 60) diffMins -= 24 * 60;
-    
-    const diffHours = Math.floor(Math.abs(diffMins) / 60);
-    const diffMin = Math.abs(diffMins) % 60;
-    const direction = diffMins >= 0 ? 'ahead' : 'behind';
-    
-    const resultDiv = document.getElementById('diffResult');
-    const fromName = CONFIG.timezones.find(t => t.tz === tzFrom.value)?.name || 'Location';
-    const toName = CONFIG.timezones.find(t => t.tz === tzTo.value)?.name || 'Location';
-    
-    resultDiv.innerHTML = `
-      <div style="font-size:18px; font-weight:bold; color:var(--accent);">
-        ${toName} is <strong>${diffHours}h ${diffMin}m</strong> ${direction}
-      </div>
-      <div class="muted" style="margin-top:6px;">
-        When it's ${fromStr.split(',')[1]?.trim()} in ${fromName}, it's ${toStr.split(',')[1]?.trim()} in ${toName}
-      </div>
-    `;
-  };
-  
-  tzFrom.addEventListener('change', updateDiff);
-  tzTo.addEventListener('change', updateDiff);
-  updateDiff();
-}
-
-/* --------------------------
-   Communication Tips
-   - suggests best times for different activities
-   -------------------------- */
-function renderCommunicationTips(){
-  const container = document.getElementById('tipsContainer');
-  if (!container) return;
-  
-  const now = new Date();
-  const tips = [
-    {
-      emoji: '📧',
-      title: 'Async Communication',
-      desc: 'Email, Slack threads, docs - best for all times'
-    },
-    {
-      emoji: '🎥',
-      title: 'Video Calls',
-      desc: 'Best 9am-11am or 4pm-5pm to catch overlaps'
-    },
-    {
-      emoji: '🗓️',
-      title: 'Schedule Meetings',
-      desc: 'Check "Best Times to Call" section above'
-    },
-    {
-      emoji: '⏰',
-      title: 'Send Updates',
-      desc: 'Avoid early morning or late night for recipients'
-    },
-    {
-      emoji: '🤝',
-      title: 'One-on-ones',
-      desc: 'Rotate meeting times to be fair to all'
-    },
-    {
-      emoji: '📺',
-      title: 'Record Meetings',
-      desc: 'Always record for those who can\'t attend live'
-    }
-  ];
-  
-  container.innerHTML = '';
-  tips.forEach(tip => {
-    const div = document.createElement('div');
-    div.style.cssText = 'padding:12px; background:var(--bg-muted); border-radius:6px; border-left:4px solid var(--accent);';
-    div.innerHTML = `
-      <div style="font-size:24px; margin-bottom:6px;">${tip.emoji}</div>
-      <div style="font-weight:600; color:var(--accent); margin-bottom:4px;">${tip.title}</div>
-      <div class="muted" style="font-size:12px;">${tip.desc}</div>
-    `;
-    container.appendChild(div);
-  });
 }
 
 
@@ -906,12 +647,6 @@ function applyStoredPreferences(){
   $('themeToggle').setAttribute('aria-pressed', dark ? 'true' : 'false');
   $('themeToggle').textContent = dark ? 'Light Mode' : 'Dark Mode';
 
-  // Compact
-  const compact = localStorage.getItem(STORAGE_KEYS.compact) === "true";
-  document.body.classList.toggle('compact', compact);
-  $('compactToggle').classList.toggle('active', compact);
-  $('compactToggle').setAttribute('aria-pressed', compact ? 'true' : 'false');
-
   // Hour format
   const hour24 = localStorage.getItem(STORAGE_KEYS.hour24);
   const hour24bool = (hour24 === null) ? true : (hour24 === "true");
@@ -928,13 +663,6 @@ function wireToggles(){
   $('themeToggle').addEventListener('click', () => {
     const isDark = document.documentElement.classList.toggle('dark');
     localStorage.setItem(STORAGE_KEYS.dark, isDark ? "true" : "false");
-    applyStoredPreferences();
-  });
-
-  // Compact toggle
-  $('compactToggle').addEventListener('click', () => {
-    const compact = document.body.classList.toggle('compact');
-    localStorage.setItem(STORAGE_KEYS.compact, compact ? "true" : "false");
     applyStoredPreferences();
   });
 
@@ -956,10 +684,8 @@ let tzInterval = null;
 function startLiveUpdates(){
   if (tzInterval) clearInterval(tzInterval);
   updateTimezones();
-  renderActivityChart();
   tzInterval = setInterval(() => {
     updateTimezones();
-    renderActivityChart();
   }, 1000);
 }
 
@@ -1014,6 +740,7 @@ function renderBestMeetingTime(){
   const topTimes = results.slice(0, 3);
 
   if (topTimes.length > 0 && topTimes[0].count > 0) {
+    $('bestMeetingSection').style.display = 'block';
     let html = `<h3 style="margin-top:0; color:var(--accent);">Best Times to Call (Work Hours 9am-5pm)</h3>`;
     html += `<div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px;">`;
     
@@ -1033,6 +760,8 @@ function renderBestMeetingTime(){
     });
     html += `</div>`;
     container.innerHTML = html;
+  } else {
+    $('bestMeetingSection').style.display = 'none';
   }
 }
 
@@ -1092,17 +821,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // Render best meeting times
   renderBestMeetingTime();
 
-  // Render timezone offset guide
-  updateTimezoneOffsetGuide();
 
-  // Render activity chart
-  renderActivityChart();
-
-  // Init time difference calculator
-  initTimeDiffCalculator();
-
-  // Render communication tips
-  renderCommunicationTips();
 });
 </script>
 
