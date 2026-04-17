@@ -32,7 +32,7 @@
     --muted: #6b7280;
     --accent: #2563eb;
     --highlight: #cfe8ff;
-    --quarter-highlight: #fff3cd;
+    --quarter-highlight: #fffef9;
     --card-shadow: rgba(16,24,40,0.03);
     --flag-font-size: 18px;
   }
@@ -47,7 +47,7 @@
     --muted: #b8c5d6;
     --accent: #60a5fa;
     --highlight: #1e3a5f;
-    --quarter-highlight: #5a4a0a;
+    --quarter-highlight: #3a3419;
     --card-shadow: rgba(0,0,0,0.4);
   }
 
@@ -139,6 +139,10 @@
   .tz-name {
     font-weight: 600;
     font-size: 15px;
+  }
+
+  .tz-name a:hover {
+    opacity: 0.7;
   }
 
   .tz-time {
@@ -242,7 +246,6 @@
 
   .current-quarter {
     background-color: var(--quarter-highlight);
-    font-weight: 700;
   }
 
   /* Small helpers */
@@ -403,7 +406,7 @@
       </thead>
       <tbody>
         <!-- Q1 -->
-        <tr>
+        <tr data-quarter="1">
           <td><strong>Q1<br>(Jan–Mar)</strong><br>Winter (NAFTA/EU)<br>Summer (LATAM/APAC)</td>
           <td>
             <span class="ag-section-title">Growing:</span> Wheat, Small Grains
@@ -420,13 +423,13 @@
           </td>
           <td>
             <span class="ag-section-title">Growing:</span> Sugarcane, Rice (Peak)
-            <span class="ag-section-title">Harvest:</span> Summer crops (Sydney region)
+            <span class="ag-section-title">Harvest:</span> Summer Crops (Sydney Region)
             <span class="ag-section-title">Activities:</span> Pest Control, Irrigation
           </td>
         </tr>
 
         <!-- Q2 -->
-        <tr class="current-quarter">
+        <tr data-quarter="2">
           <td><strong>Q2<br>(Apr–Jun)</strong><br>Spring (NAFTA/EU)<br>Autumn (LATAM/APAC)</td>
           <td>
             <span class="ag-section-title">Planting:</span> Corn, Soybeans, Sunflowers
@@ -443,14 +446,14 @@
             <span class="ag-section-title">Activities:</span> Disease Spraying
           </td>
           <td>
-            <span class="ag-section-title">Harvest:</span> Summer crops, Rice (late)
-            <span class="ag-section-title">Planting:</span> Winter crops, Wheat
+            <span class="ag-section-title">Harvest:</span> Summer Crops, Rice (Late)
+            <span class="ag-section-title">Planting:</span> Winter Crops, Wheat
             <span class="ag-section-title">Activities:</span> Soil Preparation, Spraying
           </td>
         </tr>
 
         <!-- Q3 -->
-        <tr>
+        <tr data-quarter="3">
           <td><strong>Q3<br>(Jul–Sep)</strong><br>Summer (NAFTA/EU)<br>Winter (LATAM/APAC)</td>
           <td>
             <span class="ag-section-title">Growing:</span> Corn, Soybeans, Sunflowers (Bloom)
@@ -471,7 +474,7 @@
         </tr>
 
         <!-- Q4 -->
-        <tr>
+        <tr data-quarter="4">
           <td><strong>Q4<br>(Oct–Dec)</strong><br>Autumn (NAFTA/EU)<br>Spring (LATAM/APAC)</td>
           <td>
             <span class="ag-section-title">Harvest:</span> Corn, Soybeans, Sunflowers
@@ -489,8 +492,8 @@
             <span class="ag-section-title">Activities:</span> Weed Control Spraying
           </td>
           <td>
-            <span class="ag-section-title">Planting:</span> Summer crops, Rice (Spring)
-            <span class="ag-section-title">Growing:</span> Sugarcane (Early season)
+            <span class="ag-section-title">Planting:</span> Summer Crops, Rice
+            <span class="ag-section-title">Growing:</span> Sugarcane (Early Season)
             <span class="ag-section-title">Activities:</span> Weed Control, Land Preparation
           </td>
         </tr>
@@ -540,15 +543,24 @@ function getYearsArray() {
   ];
 }
 
+// Get current quarter (1-4) based on today's month
+function getCurrentQuarter() {
+  const month = new Date().getMonth(); // 0-11
+  return Math.floor(month / 3) + 1; // Q1-Q4
+}
+
 const CONFIG = {
   // Keep only the locations already present in your HTML (as requested).
   timezones: [
-    { name: "St Marys (Sydney)", tz: "Australia/Sydney", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#00008B'/><rect width='15' height='15' fill='#fff'/><path d='M2,2 L14,2 L14,14 L2,14 Z' stroke='#CC0000' stroke-width='1' fill='none'/><path d='M2,8 L14,8 M8,2 L8,14' stroke='#CC0000' stroke-width='0.8'/><polygon points='8,8 9,9.5 10.5,9.5 9,10.5 9.5,12 8,11 6.5,12 7,10.5 5.5,9.5 7,9.5' fill='#FFD700'/><circle cx='42' cy='8' r='1.5' fill='#fff'/><circle cx='50' cy='12' r='1.5' fill='#fff'/><circle cx='42' cy='16' r='1.5' fill='#fff'/><circle cx='34' cy='12' r='1.5' fill='#fff'/><circle cx='42' cy='12' r='1' fill='#fff'/></svg>" },
-    { name: "Pune", tz: "Asia/Kolkata", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect y='0' width='60' height='10' fill='#FF9900'/><rect y='10' width='60' height='10' fill='white'/><rect y='20' width='60' height='10' fill='#138808'/><circle cx='30' cy='15' r='3' fill='#1434CB'/></svg>" },
-    { name: "Zedelgem", tz: "Europe/Brussels", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='20' height='30' fill='#000'/><rect x='20' width='20' height='30' fill='#FFD700'/><rect x='40' width='20' height='30' fill='#EF3B39'/></svg>" },
-    { name: "Curitiba", tz: "America/Sao_Paulo", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#009C3B'/><polygon points='30,5 50,15 30,25 10,15' fill='#FFD700'/><circle cx='30' cy='15' r='5' fill='#002776'/></svg>" },
-    { name: "New Holland, PA", tz: "America/New_York", offset: "GMT-4", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#B22234'/><line x1='0' y1='5' x2='60' y2='5' stroke='white' stroke-width='2'/><line x1='0' y1='10' x2='60' y2='10' stroke='white' stroke-width='2'/><line x1='0' y1='15' x2='60' y2='15' stroke='white' stroke-width='2'/><line x1='0' y1='20' x2='60' y2='20' stroke='white' stroke-width='2'/><line x1='0' y1='25' x2='60' y2='25' stroke='white' stroke-width='2'/><rect width='24' height='15' fill='#3C3B6B'/></svg>" },
-    { name: "Oak Brook, IL", tz: "America/Chicago", offset: "GMT-5", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#B22234'/><line x1='0' y1='5' x2='60' y2='5' stroke='white' stroke-width='2'/><line x1='0' y1='10' x2='60' y2='10' stroke='white' stroke-width='2'/><line x1='0' y1='15' x2='60' y2='15' stroke='white' stroke-width='2'/><line x1='0' y1='20' x2='60' y2='20' stroke='white' stroke-width='2'/><line x1='0' y1='25' x2='60' y2='25' stroke='white' stroke-width='2'/><rect width='24' height='15' fill='#3C3B6B'/></svg>" }
+    { name: "St Marys (Sydney)", tz: "Australia/Sydney", link: "https://cnhind.sharepoint.com/sites/MyCNHIndustrial_Local/SitePages/Locations/Locations-Australia-StMarys.aspx", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#00008B'/><rect width='15' height='15' fill='#fff'/><path d='M2,2 L14,2 L14,14 L2,14 Z' stroke='#CC0000' stroke-width='1' fill='none'/><path d='M2,8 L14,8 M8,2 L8,14' stroke='#CC0000' stroke-width='0.8'/><polygon points='8,8 9,9.5 10.5,9.5 9,10.5 9.5,12 8,11 6.5,12 7,10.5 5.5,9.5 7,9.5' fill='#FFD700'/><circle cx='42' cy='8' r='1.5' fill='#fff'/><circle cx='50' cy='12' r='1.5' fill='#fff'/><circle cx='42' cy='16' r='1.5' fill='#fff'/><circle cx='34' cy='12' r='1.5' fill='#fff'/><circle cx='42' cy='12' r='1' fill='#fff'/></svg>" },
+    { name: "Pune", tz: "Asia/Kolkata", link: "https://cnhind.sharepoint.com/sites/MyCNHIndustrial_Local/SitePages/Locations/Locations-India-Pune.aspx", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect y='0' width='60' height='10' fill='#FF9900'/><rect y='10' width='60' height='10' fill='white'/><rect y='20' width='60' height='10' fill='#138808'/><circle cx='30' cy='15' r='3' fill='#1434CB'/></svg>" },
+    { name: "Zedelgem", tz: "Europe/Brussels", link: "https://cnhind.sharepoint.com/sites/MyCNHIndustrial_Local/SitePages/Locations/Locations-Belgium-Zedelgem.aspx", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='20' height='30' fill='#000'/><rect x='20' width='20' height='30' fill='#FFD700'/><rect x='40' width='20' height='30' fill='#EF3B39'/></svg>" },
+    { name: "Curitiba", tz: "America/Sao_Paulo", link: "https://cnhind.sharepoint.com/sites/MyCNHIndustrial_Local/SitePages/Locations/Locations-Brazil-Curitiba.aspx", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#009C3B'/><polygon points='30,5 50,15 30,25 10,15' fill='#FFD700'/><circle cx='30' cy='15' r='5' fill='#002776'/></svg>" },
+    { name: "New Holland, PA", tz: "America/New_York", link: "https://cnhind.sharepoint.com/sites/MyCNHIndustrial_Local/SitePages/Locations/Locations-US-New-Holland.aspx", offset: "GMT-4", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#B22234'/><line x1='0' y1='5' x2='60' y2='5' stroke='white' stroke-width='2'/><line x1='0' y1='10' x2='60' y2='10' stroke='white' stroke-width='2'/><line x1='0' y1='15' x2='60' y2='15' stroke='white' stroke-width='2'/><line x1='0' y1='20' x2='60' y2='20' stroke='white' stroke-width='2'/><line x1='0' y1='25' x2='60' y2='25' stroke='white' stroke-width='2'/><rect width='24' height='15' fill='#3C3B6B'/></svg>" },
+    { name: "Oak Brook, IL", tz: "America/Chicago", link: "https://cnhind.sharepoint.com/sites/MyCNHIndustrial_Local/SitePages/Locations/Locations-US-Oak-Brook.aspx", offset: "GMT-5", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#B22234'/><line x1='0' y1='5' x2='60' y2='5' stroke='white' stroke-width='2'/><line x1='0' y1='10' x2='60' y2='10' stroke='white' stroke-width='2'/><line x1='0' y1='15' x2='60' y2='15' stroke='white' stroke-width='2'/><line x1='0' y1='20' x2='60' y2='20' stroke='white' stroke-width='2'/><line x1='0' y1='25' x2='60' y2='25' stroke='white' stroke-width='2'/><rect width='24' height='15' fill='#3C3B6B'/></svg>" },
+    { name: "Goodfield, IL", tz: "America/Chicago", link: "https://cnhind.sharepoint.com/sites/MyCNHIndustrial_Local/SitePages/Locations/Locations-US-Goodfield.aspx", offset: "GMT-5", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#B22234'/><line x1='0' y1='5' x2='60' y2='5' stroke='white' stroke-width='2'/><line x1='0' y1='10' x2='60' y2='10' stroke='white' stroke-width='2'/><line x1='0' y1='15' x2='60' y2='15' stroke='white' stroke-width='2'/><line x1='0' y1='20' x2='60' y2='20' stroke='white' stroke-width='2'/><line x1='0' y1='25' x2='60' y2='25' stroke='white' stroke-width='2'/><rect width='24' height='15' fill='#3C3B6B'/></svg>" },
+    { name: "Sioux Falls, SD", tz: "America/Chicago", link: "https://cnhind.sharepoint.com/sites/MyCNHIndustrial_Local/SitePages/Locations/Locations-US-Sioux-Falls.aspx", offset: "GMT-5", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#B22234'/><line x1='0' y1='5' x2='60' y2='5' stroke='white' stroke-width='2'/><line x1='0' y1='10' x2='60' y2='10' stroke='white' stroke-width='2'/><line x1='0' y1='15' x2='60' y2='15' stroke='white' stroke-width='2'/><line x1='0' y1='20' x2='60' y2='20' stroke='white' stroke-width='2'/><line x1='0' y1='25' x2='60' y2='25' stroke='white' stroke-width='2'/><rect width='24' height='15' fill='#3C3B6B'/></svg>" },
+    { name: "Fargo, ND", tz: "America/Chicago", link: "https://cnhind.sharepoint.com/sites/MyCNHIndustrial_Local/SitePages/Locations/Locations-US-Fargo.aspx", offset: "GMT-5", flag: "<svg width='20' height='20' viewBox='0 0 60 30'><rect width='60' height='30' fill='#B22234'/><line x1='0' y1='5' x2='60' y2='5' stroke='white' stroke-width='2'/><line x1='0' y1='10' x2='60' y2='10' stroke='white' stroke-width='2'/><line x1='0' y1='15' x2='60' y2='15' stroke='white' stroke-width='2'/><line x1='0' y1='20' x2='60' y2='20' stroke='white' stroke-width='2'/><line x1='0' y1='25' x2='60' y2='25' stroke='white' stroke-width='2'/><rect width='24' height='15' fill='#3C3B6B'/></svg>" }
   ]
 };
 
@@ -643,10 +655,11 @@ function updateTimezones(){
     // card HTML
     const div = document.createElement('div');
     div.className = 'tz-item';
+    const nameHTML = z.link ? `<a href="${z.link}" target="_blank" style="color: inherit; text-decoration: none; cursor: pointer; border-bottom: 1px dotted var(--accent);" title="Open location page">${z.name}</a>` : z.name;
     div.innerHTML = `
       <div class="tz-top">
         <div class="tz-flag" aria-hidden="true">${z.flag}</div>
-        <div class="tz-name">${z.name}</div>
+        <div class="tz-name">${nameHTML}</div>
       </div>
       <div class="tz-time" data-time="${timeStr}">${timeStr}</div>
       <div class="tz-sub">${dateStr}${tzShort ? " • " + tzShort : ""}${z.offset ? " • " + z.offset : ""}</div>
@@ -902,6 +915,23 @@ function renderBestMeetingTime(){
 }
 
 /* --------------------------
+   Agricultural Quarter Highlighting
+   - highlightCurrentQuarter(): dynamically applies current-quarter class
+   - Called during initialization to highlight the current quarter
+   - Uses data-quarter attribute to identify rows
+   -------------------------- */
+function highlightCurrentQuarter() {
+  const currentQ = getCurrentQuarter();
+  const quarters = document.querySelectorAll('[data-quarter]');
+  quarters.forEach(row => {
+    row.classList.remove('current-quarter');
+    if (parseInt(row.getAttribute('data-quarter')) === currentQ) {
+      row.classList.add('current-quarter');
+    }
+  });
+}
+
+/* --------------------------
    Location Metadata (Sunrise/Sunset calculation - Legacy)
    - LOCATION_DATA: maps IANA timezone names to coordinates (latitude)
    - estimateSunrise(): very approximate calculation (accuracy ±1-2 hours)
@@ -963,6 +993,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Apply saved preferences (theme / compact / hour)
   applyStoredPreferences();
+
+  // Highlight current agricultural quarter
+  highlightCurrentQuarter();
 
   // Wire UI toggles
   wireToggles();
