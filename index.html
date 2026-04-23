@@ -7,14 +7,14 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%232563eb' stroke='%231e40af' stroke-width='2'/><circle cx='50' cy='50' r='40' fill='%2360a5fa' opacity='0.8'/><circle cx='50' cy='50' r='35' fill='%23dbeafe'/><path d='M 50 20 L 50 50 M 50 50 L 70 50' stroke='%231e40af' stroke-width='3' stroke-linecap='round'/><circle cx='50' cy='50' r='5' fill='%231e40af'/></svg>" />
 
 <!--
-  World Timezones & Calendar (2024-2027)
+  World Timezones & Calendar
   A professional timezone tracking application with calendar, agricultural reference data, and meeting time optimization.
   
   Features:
   - Real-time timezone display (6 international locations with 1-second updates)
   - Dark/Light mode toggle (persists in localStorage)
   - 24-hour / AM-PM format toggle
-  - Calendar view for years 2024-2027 with ISO week numbers
+  - Calendar view for with ISO week numbers
   - Agricultural seasons & activities by geographic region
   - Responsive design (mobile-friendly)
   - All preferences stored in localStorage
@@ -175,7 +175,7 @@
 
   .months {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 12px;
   }
 
@@ -184,6 +184,10 @@
     border-radius: 8px;
     padding: 10px;
     background: var(--bg);
+    min-height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
 
   .month h3 {
@@ -192,20 +196,29 @@
     font-size: 15px;
   }
 
-  table {
+  .month table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 12px;
+    font-size: 11px;
+    table-layout: fixed;
   }
 
-  th, td {
+  .month th,
+  .month td {
     border: 1px solid var(--border);
     text-align: center;
-    padding: 6px 4px;
+    vertical-align: middle;
+    padding: 4px 8px;
+    box-sizing: border-box;
+    min-width: 0;
+    width: calc(100% / 8);
+  }
+
+  .month tr {
+    height: 1.8rem;
   }
 
   .week-col {
-    width: 2.4rem;
     color: var(--muted);
     font-weight: 600;
     background: #e8f4f8;
@@ -232,8 +245,14 @@
   }
 
   /* Agriculture table */
+  .agri-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
   .agri-table th,
   .agri-table td {
+    border: 1px solid var(--border);
+    text-align: center;
     font-size: 12px;
     padding: 8px;
   }
@@ -242,6 +261,20 @@
     font-weight: 700;
     display: block;
     margin-bottom: 4px;
+  }
+
+  .current-quarter {
+    background-color: var(--quarter-highlight);
+  }
+
+  /* Small helpers */
+  .muted {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .spacer {
+    flex: 1;
   }
 
   .current-quarter {
@@ -329,8 +362,7 @@
        ======================================================= -->
   <div class="controls">
     <div class="group">
-      <h1 style="margin:0;">CNHi - World Time & Calendar</h1>
-      <div style="margin-left:8px;" class="muted" id="yearRange">–</div>
+      <h1 style="margin:0;">CNHi | World Time & Calendar</h1>
     </div>
 
     <div class="spacer" aria-hidden="true"></div>
@@ -376,7 +408,7 @@
 
 
   <!-- =======================================================
-       CALENDAR SECTION (2024-2027)
+       CALENDAR SECTION
        ======================================================= -->
   <section class="card" style="margin-top:14px;">
     <div class="year-header">
@@ -398,102 +430,102 @@
       <thead>
         <tr>
           <th>Quarter</th>
-          <th>NAFTA</th>
-          <th>EMEA</th>
-          <th>LATAM</th>
-          <th>APAC</th>
+          <th>NAFTA 🌎</th>
+          <th>EMEA 🌍</th>
+          <th>LATAM 🌎</th>
+          <th>APAC 🌏</th>
         </tr>
       </thead>
       <tbody>
         <!-- Q1 -->
         <tr data-quarter="1">
-          <td><strong>Q1<br>(Jan–Mar)</strong><br>Winter (NAFTA/EU)<br>Summer (LATAM/APAC)</td>
+          <td><strong>Q1<br>(Jan–Mar)</strong><br>❄️ Winter (NAFTA/EU)<br>☀️ Summer (LATAM/APAC)</td>
           <td>
-            <span class="ag-section-title">Growing:</span> Wheat, Small Grains
-            <span class="ag-section-title">Dormant:</span> Corn, Soybeans
-            <span class="ag-section-title">Activities:</span> Equipment Maintenance
+            <span class="ag-section-title">Growing:</span> 🌾 Wheat, Small Grains
+            <span class="ag-section-title">Dormant:</span> 🌽 Corn, 🌱 Soybeans
+            <span class="ag-section-title">Activities:</span> 🛠️ Equipment Maintenance
           </td>
           <td>
-            <span class="ag-section-title">Growing:</span> Wheat, Barley
+            <span class="ag-section-title">Growing:</span> 🌾 Wheat, Barley
             <span class="ag-section-title">Activities:</span> Greenhouse Preparation, Limited Spraying
           </td>
           <td>
-            <span class="ag-section-title">Harvest:</span> Soybeans, Corn, Sugarcane
+            <span class="ag-section-title">Harvest:</span> 🌱 Soybeans, 🌽 Corn, 🎋 Sugarcane
             <span class="ag-section-title">Activities:</span> Pest Control Spraying
           </td>
           <td>
-            <span class="ag-section-title">Growing:</span> Sugarcane, Rice (Peak)
-            <span class="ag-section-title">Harvest:</span> Summer Crops (Sydney Region)
-            <span class="ag-section-title">Activities:</span> Pest Control, Irrigation
+            <span class="ag-section-title">Growing:</span> 🎋 Sugarcane, 🍚 Rice (Peak)
+            <span class="ag-section-title">Harvest:</span> ☀️ Summer Crops (Sydney Region)
+            <span class="ag-section-title">Activities:</span> Pest Control, 💧 Irrigation
           </td>
         </tr>
 
         <!-- Q2 -->
         <tr data-quarter="2">
-          <td><strong>Q2<br>(Apr–Jun)</strong><br>Spring (NAFTA/EU)<br>Autumn (LATAM/APAC)</td>
+          <td><strong>Q2<br>(Apr–Jun)</strong><br>🌸 Spring (NAFTA/EU)<br>🍂 Autumn (LATAM/APAC)</td>
           <td>
-            <span class="ag-section-title">Planting:</span> Corn, Soybeans, Sunflowers
-            <span class="ag-section-title">Growing:</span> Wheat (Heading)
+            <span class="ag-section-title">Planting:</span> 🌽 Corn, 🌱 Soybeans, 🌻 Sunflowers
+            <span class="ag-section-title">Growing:</span> 🌾 Wheat (Heading)
             <span class="ag-section-title">Activities:</span> Weed Control Spraying
           </td>
           <td>
-            <span class="ag-section-title">Planting:</span> Cereals, Corn, Sunflowers
+            <span class="ag-section-title">Planting:</span> Cereals, 🌽 Corn, 🌻 Sunflowers
             <span class="ag-section-title">Activities:</span> Fertilization, Weed Spraying
           </td>
           <td>
-            <span class="ag-section-title">Harvest:</span> Corn, Soybeans
-            <span class="ag-section-title">Planting:</span> Sugarcane
+            <span class="ag-section-title">Harvest:</span> 🌽 Corn, 🌱 Soybeans
+            <span class="ag-section-title">Planting:</span> 🎋 Sugarcane
             <span class="ag-section-title">Activities:</span> Disease Spraying
           </td>
           <td>
-            <span class="ag-section-title">Harvest:</span> Summer Crops, Rice (Late)
-            <span class="ag-section-title">Planting:</span> Winter Crops, Wheat
+            <span class="ag-section-title">Harvest:</span> ☀️ Summer Crops, 🍚 Rice (Late)
+            <span class="ag-section-title">Planting:</span> ❄️ Winter Crops, 🌾 Wheat
             <span class="ag-section-title">Activities:</span> Soil Preparation, Spraying
           </td>
         </tr>
 
         <!-- Q3 -->
         <tr data-quarter="3">
-          <td><strong>Q3<br>(Jul–Sep)</strong><br>Summer (NAFTA/EU)<br>Winter (LATAM/APAC)</td>
+          <td><strong>Q3<br>(Jul–Sep)</strong><br>☀️ Summer (NAFTA/EU)<br>❄️ Winter (LATAM/APAC)</td>
           <td>
-            <span class="ag-section-title">Growing:</span> Corn, Soybeans, Sunflowers (Bloom)
+            <span class="ag-section-title">Growing:</span> 🌽 Corn, 🌱 Soybeans, 🌻 Sunflowers (Bloom)
             <span class="ag-section-title">Activities:</span> Pest Spraying
           </td>
           <td>
-            <span class="ag-section-title">Growing:</span> Corn, Wheat, Sunflowers
-            <span class="ag-section-title">Activities:</span> Irrigation
+            <span class="ag-section-title">Growing:</span> 🌽 Corn, 🌾 Wheat, 🌻 Sunflowers
+            <span class="ag-section-title">Activities:</span> 💧 Irrigation
           </td>
           <td>
-            <span class="ag-section-title">Harvest:</span> Sugarcane
-            <span class="ag-section-title">Activities:</span> Maintenance, Limited Spraying
+            <span class="ag-section-title">Harvest:</span> 🎋 Sugarcane
+            <span class="ag-section-title">Activities:</span> 🛠️ Maintenance, Limited Spraying
           </td>
           <td>
-            <span class="ag-section-title">Growing:</span> Winter crops, Wheat, Barley
-            <span class="ag-section-title">Activities:</span> Maintenance, Limited Spraying
+            <span class="ag-section-title">Growing:</span> ❄️ Winter Crops, 🌾 Wheat, Barley
+            <span class="ag-section-title">Activities:</span> 🛠️ Maintenance, Limited Spraying
           </td>
         </tr>
 
         <!-- Q4 -->
         <tr data-quarter="4">
-          <td><strong>Q4<br>(Oct–Dec)</strong><br>Autumn (NAFTA/EU)<br>Spring (LATAM/APAC)</td>
+          <td><strong>Q4<br>(Oct–Dec)</strong><br>🍂 Autumn (NAFTA/EU)<br>🌸 Spring (LATAM/APAC)</td>
           <td>
-            <span class="ag-section-title">Harvest:</span> Corn, Soybeans, Sunflowers
-            <span class="ag-section-title">Planting:</span> Wheat
+            <span class="ag-section-title">Harvest:</span> 🌽 Corn, 🌱 Soybeans, 🌻 Sunflowers
+            <span class="ag-section-title">Planting:</span> 🌾 Wheat
             <span class="ag-section-title">Activities:</span> Cover Crops
           </td>
           <td>
-            <span class="ag-section-title">Harvest:</span> Cereals, Sunflowers
-            <span class="ag-section-title">Planting:</span> Wheat
+            <span class="ag-section-title">Harvest:</span> Cereals, 🌻 Sunflowers
+            <span class="ag-section-title">Planting:</span> 🌾 Wheat
             <span class="ag-section-title">Activities:</span> Soil Preparation
           </td>
           <td>
-            <span class="ag-section-title">Planting:</span> Soybeans, Corn, Sunflowers
-            <span class="ag-section-title">Growing:</span> Sugarcane (Early)
+            <span class="ag-section-title">Planting:</span> 🌱 Soybeans, 🌽 Corn, 🌻 Sunflowers
+            <span class="ag-section-title">Growing:</span> 🎋 Sugarcane (Early)
             <span class="ag-section-title">Activities:</span> Weed Control Spraying
           </td>
           <td>
-            <span class="ag-section-title">Planting:</span> Summer Crops, Rice
-            <span class="ag-section-title">Growing:</span> Sugarcane (Early Season)
+            <span class="ag-section-title">Planting:</span> ☀️ Summer Crops, 🍚 Rice
+            <span class="ag-section-title">Growing:</span> 🎋 Sugarcane (Early Season)
             <span class="ag-section-title">Activities:</span> Weed Control, Land Preparation
           </td>
         </tr>
@@ -503,10 +535,10 @@
     <div style="margin-top:16px; font-size:12px; color:var(--muted);">
       <strong>Legend:</strong>
       <div style="margin-top:8px; line-height:1.6;">
-        <div><strong>NAFTA:</strong> North American Free Trade Agreement (Canada, Mexico, United States)</div>
-        <div><strong>EMEA:</strong> Europe, Middle East, Africa</div>
-        <div><strong>LATAM:</strong> Latin America (Southern Hemisphere)</div>
-        <div><strong>APAC:</strong> Asia-Pacific</div>
+        <div><strong>🌎 NAFTA:</strong> North American Free Trade Agreement (Canada, Mexico, United States)</div>
+        <div><strong>🌍 EMEA:</strong> Europe, Middle East, Africa</div>
+        <div><strong>🌎 LATAM:</strong> Latin America (Southern Hemisphere)</div>
+        <div><strong>🌏 APAC:</strong> Asia-Pacific</div>
       </div>
       <div style="margin-top:12px; display:grid; gap:10px;">
         <div style="padding:8px; background:var(--bg-muted); border-left:3px solid var(--accent); border-radius:4px; font-size:11px;">
@@ -693,13 +725,17 @@ function getISOWeek(date){
 function renderMonth(year, month){
   const first = new Date(year, month, 1);
   const firstDow = first.getDay();
+  const last = new Date(year, month + 1, 0);
+  const totalDays = last.getDate();
+  const totalSlots = firstDow + totalDays;
+  const weeks = Math.max(4, Math.ceil(totalSlots / 7));
   const gridStart = new Date(year, month, 1 - firstDow);
 
   let html = `<div class="month"><h3>${MONTH_NAMES[month]} ${year}</h3><table>`;
   html += `<tr><th class="week-col">Wk</th>${DOW_ABBR.map(d => `<th>${d}</th>`).join('')}</tr>`;
 
   const today = new Date();
-  for (let w = 0; w < 6; w++){
+  for (let w = 0; w < weeks; w++){
     const weekStart = new Date(gridStart);
     weekStart.setDate(gridStart.getDate() + w * 7);
     const weekNumber = getISOWeek(new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate() + 3));
@@ -739,7 +775,7 @@ function renderYear(year){
    - createYearButtons(): generates year selector buttons for calendar
    - updateUIForYear(): updates active button state and renders calendar for selected year
    - Persists selected year in localStorage (key: wtc_year)
-   - Default: current year (2024-2027 range)
+   - Default: current year
    - NOTE: Year selector only in Calendar section, not in Current Local Times
    -------------------------- */
 function createYearButtons(){
@@ -983,10 +1019,6 @@ window.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem(STORAGE_KEYS.dark) === null) {
     localStorage.setItem(STORAGE_KEYS.dark, "true");
   }
-
-  // Update year range display (e.g. "2025–2029")
-  const years = getYearsArray();
-  $('yearRange').textContent = `${years[0]}–${years[years.length - 1]}`;
 
   // Prepare year buttons & calendar initial view
   createYearButtons();
