@@ -4,13 +4,18 @@ A comprehensive world timezone and calendar application for tracking local times
 
 ## Overview
 
-This application provides real-time timezone tracking for 6 international locations:
+This application provides real-time timezone tracking for multiple global locations, including:
 - **St Marys (Sydney)** - Australia/Sydney (GMT+10)
 - **Pune** - Asia/Kolkata (GMT+5:30)
+- **Plock** - Europe/Warsaw
 - **Zedelgem** - Europe/Brussels (GMT+2)
+- **Basildon** - Europe/London
 - **Curitiba** - America/Sao_Paulo (GMT-3)
 - **New Holland, PA** - America/New_York (GMT-4 EDT)
 - **Oak Brook, IL** - America/Chicago (GMT-5 CDT)
+- **Goodfield, IL** - America/Chicago
+- **Sioux Falls, SD** - America/Chicago
+- **Fargo, ND** - America/Chicago
 
 ## Features
 
@@ -20,11 +25,11 @@ This application provides real-time timezone tracking for 6 international locati
 - Date display with timezone abbreviations
 - Country flags for visual identification
 
-✅ **Calendar View (2024-2027)**
+✅ **Calendar View**
 - Full month grids with ISO week numbers
 - Highlights current date
 - Weekend highlighting
-- Multi-year navigation
+- Multi-year navigation with years generated relative to the current year
 
 ✅ **Agricultural Seasons & Activities**
 - Quarterly breakdown by region (NAFTA, EMEA, LATAM, APAC)
@@ -46,7 +51,7 @@ This application provides real-time timezone tracking for 6 international locati
 ✅ **Responsive Design**
 - Works on desktop, tablet, and mobile
 - Clean, modern UI with CSS Grid layout
-- No external dependencies
+- No external dependencies; single-file implementation
 
 ## Technology Stack
 
