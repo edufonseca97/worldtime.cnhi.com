@@ -27,7 +27,11 @@ This application provides real-time timezone tracking for multiple global locati
 
 ✅ **Calendar View**
 - Full month grids with ISO week numbers
-- Highlights current date
+- Highlights current date with enhanced visual emphasis (shadow effect)
+- Highlights entire current week with subtle background
+- Bold week number for current week
+- Day-of-year counter (e.g., "Day 129 of 365") shown only for current year
+- Intelligent leap year detection (365/366 days)
 - Weekend highlighting
 - Multi-year navigation with years generated relative to the current year
 
